@@ -1,0 +1,14 @@
+[0m[[0m[33mwarn[0m] [0m[0mC:\Users\zhuge\IdeaProjects\data-extract-loading\src\main\scala\Main.scala:54:11: This catches all Throwables. If this is really intended, use `case e : Throwable` to clear this warning.[0m
+[0m[[0m[33mwarn[0m] [0m[0m     case e => e.printStackTrace[0m
+[0m[[0m[33mwarn[0m] [0m[0m          ^[0m
+[0m[[0m[31merror[0m] [0m[0mC:\Users\zhuge\IdeaProjects\data-extract-loading\src\main\scala\com\gracebootcamps\util\ReadCsvUtil.scala:24:44: not found: value statement[0m
+[0m[[0m[31merror[0m] [0m[0m      val resultSet2: java.sql.ResultSet = statement.executeQuery(query)[0m
+[0m[[0m[31merror[0m] [0m[0m                                           ^[0m
+[0m[[0m[31merror[0m] [0m[0mC:\Users\zhuge\IdeaProjects\data-extract-loading\src\main\scala\com\gracebootcamps\util\ReadCsvUtil.scala:24:67: not found: value query[0m
+[0m[[0m[31merror[0m] [0m[0m      val resultSet2: java.sql.ResultSet = statement.executeQuery(query)[0m
+[0m[[0m[31merror[0m] [0m[0m                                                                  ^[0m
+[0m[[0m[31merror[0m] [0m[0mC:\Users\zhuge\IdeaProjects\data-extract-loading\src\main\scala\com\gracebootcamps\util\ReadCsvUtil.scala:25:67: too many arguments (found 2, expected 1) for constructor CSVWriter: (writer: java.io.Writer)(implicit format: com.github.tototoshi.csv.CSVFormat): com.github.tototoshi.csv.CSVWriter[0m
+[0m[[0m[31merror[0m] [0m[0m      val csvWriter = new CSVWriter(new FileWriter("Output.csv"), ',')[0m
+[0m[[0m[31merror[0m] [0m[0m                                                                  ^[0m
+[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m
+[0m[[0m[31merror[0m] [0m[0mthree errors found[0m
