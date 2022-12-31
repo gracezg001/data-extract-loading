@@ -8,8 +8,8 @@ object ReadCsvUtil {
   def read(): Unit = {
     println("Reading CSV")
 
-    val reader = CSVReader.open(new File("C:/var/data/file_in_g.csv"))
-    //var reader = CSVReader.open(new File("sample.csv"))
+   // val reader = CSVReader.open(new File("C:/var/data/file_in_g.csv"))
+    val reader = CSVReader.open(new File("sample.csv"))
     reader.readNext()
 
     //reader.all()
@@ -22,7 +22,7 @@ object ReadCsvUtil {
     def writer(): Unit = {
       println("Writing CSV")
       val resultSet2: java.sql.ResultSet = statement.executeQuery(query)
-      val csvWriter = new CSVWriter(new FileWriter("Output.csv"), ',')
+      val csvWriter = new CSVWriter(new FileWriter("Output.csv"),',')
       csvWriter.writeAll(resultSet2, true)
       csvWriter.close()
 
