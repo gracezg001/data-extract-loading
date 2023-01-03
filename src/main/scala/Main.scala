@@ -1,6 +1,6 @@
+import com.gracebootcamps.util.ReadCsvUtil
 import java.sql.{Connection,DriverManager, ResultSet}
 import com.github.tototoshi.csv._
-import com.gracebootcamps.util.ReadCsvUtil
 import java.io.FileWriter
 import scala.collection.mutable.ListBuffer
 
@@ -8,7 +8,7 @@ import scala.collection.mutable.ListBuffer
 object Main {
   def main(args: Array[String]): Unit = {
      databaseAccessTest()
-   //csvTest()
+    csvTest()
   }
 
  def  databaseAccessTest(): Unit = {
