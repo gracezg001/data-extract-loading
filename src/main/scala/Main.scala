@@ -1,86 +1,53 @@
-import com.gracebootcamps.util.ReadCsvUtil
-import java.sql.{Connection,DriverManager, ResultSet}
-import com.github.tototoshi.csv._
-import java.io.FileWriter
-import scala.collection.mutable.ListBuffer
-
-
+import com.gracebootcamps.util.{CsvFileUtil,CommonUtils}
+import com.gracebootcamps.config.ApplicationConfiguration
+import com.gracebootcamps.helper.CsvDemoHelper
+import com.gracebootcamps.dao.{CityDao, CountryDao}
+import com.gracebootcamps.service.EmailService
+import org.slf4j.LoggerFactory
 object Main {
-  def main(args: Array[String]): Unit = {
-     databaseAccessTest()
-    csvTest()
-  }
 
- def  databaseAccessTest(): Unit = {
+ val logger = LoggerFactory.getLogger(this.getClass)
 
-   //connect to the database
-   val driver = "org.postgresql.Driver"
-   val url = "jdbc:postgresql://localhost:5432/postgres"
-   val con_str = "jdbc:postgresql://localhost:5432/postgres?user=postgres&password=lorex2018"
+ def main(args: Array[String]): Unit = {
+   logger.info("Application Started................................")
+   println(ApplicationConfiguration.url)
 
-   val conn = DriverManager.getConnection(con_str)
-   try {
-     val stm = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)
-     val rs = stm.executeQuery("select * from city")
-     while (rs.next) {
-       println(rs.getString("name"))
-     }
-   } finally {
-     conn.close()
-   }
+   val esvr = new EmailService
+   esvr.register("Elon@hotmail.com")
 
-   //Class.forName(driver)
-   var connection: Connection = null
-   val query = "select * from city"
-   val username = "postgres"
-   val password = "lorex2018"
-   try {
-     // classOf[org.postgresql.Driver]
-     connection = DriverManager.getConnection(url, username, password)
+   generateReport
 
-     // create the  statement , and run the select query
-     import java.sql.ResultSet
-     val statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
-     val resultSet = statement.executeQuery("select * from country")
-
-     while (resultSet.next) {
-       val countryName = resultSet.getString("code")
-       val location = resultSet.getString("region")
-       println("country name = %s, location= %s".format(countryName, location))
-
-     }
-
-   } catch {
-     case e => e.printStackTrace
-   }
-   connection.close()
-
-   /**
-    * import java.sql.Connection
-    * import java.sql.DriverManager
-    * val url: String = "jdbc:postgresql://localhost/postgres"
-    * val props: Nothing = new Nothing
-    * props.setProperty("user", "postgres")
-    * props.setProperty("password", "Admin$777")
-    * props.setProperty("ssl", "true")
-    * val conn: Connection = DriverManager.getConnection(url, props)
-    *
-    * val url: String = "jdbc:postgresql://localhost/postgres?user=postgres&password=Admin$777&ssl=true"
-    * val conn: Connection = DriverManager.getConnection(url)
-    */
+    CsvDemoHelper.write("/var/output/demo.csv")
+   logger.info("Application Completed....................")
 
  }
 
-   def csvTest():
-   Unit = {
-     ReadCsvUtil.read()
-     ReadCsvUtil.write()
+  def generateReport(): Unit ={
+    //Find country by Continent
+    // val sql = "select * from country where continent = 'North American'"
+    val dao = new CountryDao
+    val resultSet = dao.findCountryByQuery("South America")
+    val csvName = composeFileName
+    logger.info(csvName)
+    logger.info(csvName)
+    CsvFileUtil.writeAll(resultSet,csvName)
 
+    // Find city by Country code
 
-   }
+    val countrycode = "USA"
+    val query = s" select * from city where countrycode = '${countrycode}'"
+    val cityDao = new CityDao
+    cityDao.read(query)
+  }
 
+  def composeFileName: String = {
+    val dateString = CommonUtils.currentDateString("yyyy-MM-dd")
+   "/var/output/city_" + dateString + ".csv"
+  }
 
-
-
+  def register(email: String): Unit = {
+    val service = new EmailService
+    service.register(email)
+  }
 
 }
